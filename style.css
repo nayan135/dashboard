@@ -7,14 +7,14 @@
     
 
 }
-.evnet-card{
+.event-card{
     border: 1px solid #ddd;
     padding: 15px;
     margin:10px 0;
     border-radius: 5px;
 }
 
-.evnet-card button{
+.event-card button{
     background-color:violet;
     color:antiquewhite;
     padding: 8px 12px;
@@ -23,6 +23,13 @@
     cursor: pointer;
 }
 
-.evnet-card button:hover{
+.event-card button:hover{
     background-color: tomato;
+}
+
+
+#map {
+  height: 400px;
+  width: 100%;
+  margin-top: 20px;
 }

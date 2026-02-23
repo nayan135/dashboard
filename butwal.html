@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Butwal</title>
+</head>
+<body>
+    <div class="container">
+        <h1> CAMPFIRE BUTWAL</h1>
+
+        <div class="stats" id="statsContainer"></div>
+
+        <div class="controls">
+            <input type="text" id="searchInput" placeholder="Search by name or email">
+            <select id="filterStatus">
+                <option value="">All Status</option>
+                <option value="checked">Check-in Completed</option>
+                <option value="notChecked">Not Checked In</option>
+                <option value="volunteer">Volunteers</option>
+                <option value="disabled">Disabled</option>
+            </select>
+            <button onclick="resetFilters()" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">Reset</button>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Age</th>
+                        <th>Status</th>
+                        <th>T-Shirt Size</th>
+                        
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="butwal.js"></script>
+</body>
+</html>
