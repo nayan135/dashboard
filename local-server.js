@@ -44,7 +44,7 @@ if (!API_KEY) {
 }
 app.get('/api/events', async (req, res) => {
     try {
-        const response = await axios.get(`https://cockpit.hackclub.com/api/events/piblic`);
+        const response = await axios.get(`https://cockpit.hackclub.com/api/events/public`);
       
          if (!response.ok) {
             throw new Error(`API returned status: ${response.status}`);
