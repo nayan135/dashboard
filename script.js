@@ -8,7 +8,7 @@ async function fetchEvents(){
         console.log('Fetching from:', url);
     try{
    
-        const response = await fetch(url);
+        const response = await fetch('/api/events');
           console.log('Response status:', response.status);
         const events = await response.json();
         console.log('Event data:', events);

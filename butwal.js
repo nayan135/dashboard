@@ -14,7 +14,7 @@ let allData=[];
 async function loadData(){
     try{
        // const response = await fetch('cfbutwal.json');
-       const response = await fetch('http://localhost:3000/api/event/participants');
+       const response = await fetch('/api/event/participants');
         const raw = await response.json();
 
       allData = Array.isArray(raw)       ? raw
