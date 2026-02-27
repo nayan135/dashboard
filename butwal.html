@@ -116,8 +116,8 @@
         <div class="stats" id="statsContainer"></div>
 
         <div class="controls">
-            <input type="text" id="searchInput" placeholder="Search by name or email">
-            <select id="filterStatus">
+            <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Search by name or email">
+            <select onchange="applyFilters()" id="filterStatus">
                 <option value="">All Status</option>
                 <option value="checked">Check-in Completed</option>
                 <option value="notChecked">Not Checked In</option>

@@ -13,10 +13,6 @@ const port= 3000;
 app.use(cors());
 app.use(express.static('.'));
 
-app.get('/:eventName', (req, res) => {
-    res.sendFile(path.join(__dirname, 'event-detail.html'));
-});
-
 function loadEnv() {
     try {
 
@@ -36,7 +32,8 @@ function loadEnv() {
 loadEnv();
 
 const API_KEY =process.env.Cockpit_API;
-const BASE_URL='https://cockpit.hackclub.com/api';
+const BASE_URL='https://cockpit.hackclub.com/api/v1';
+const EVENT_ID = 'recUVlbfcembNY4lz';
 
 
 if (!API_KEY) {
@@ -64,21 +61,26 @@ app.get('/api/events', async (req, res) => {
     }
 });
 
-app.get('/api/event/paticipants', async (req, res) => {
+app.get('/api/event/participants', async (req, res) => {
     try {
         console.log('Fetching participants...');
-
-     const response = await fetch(`${API_BASE}/events/${EVENT_ID}/participants`, {
-           headers: {
+ console.log('${BASE_URL}/events/${EVENT_ID}/participants');
+        const response = await axios.get(`${BASE_URL}/events/${EVENT_ID}/participants`, {
+            
+            headers: {
                 'X-API-Key': API_KEY
             }
         });
-         const data = await response.json();
+       
+        const data = response.data;
         res.json(data);
     } catch (error) {
-        console.error('Error fetching events:', error);
+        console.error('Error fetching participants:', error.message);
         res.status(500).json({ error: error.message });
     }
+});
+app.get('/:eventName', (req, res) => {
+    res.sendFile(path.join(__dirname, 'event-detail.html'));
 });
 
 app.listen(port, () => {
