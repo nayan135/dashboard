@@ -1,21 +1,14 @@
 const express=require('express');
 const cors=require('cors');
+
+const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
-const axios= require('axios');
-
-
-const app = express();
-const port= 3000;
-
-
-
-app.use(cors());
-app.use(express.static('.'));
+const axios = require('axios');
 
 function loadEnv() {
     try {
-
         const envPath = path.join(__dirname, '.env');
         const envContent = fs.readFileSync(envPath, 'utf8');
         envContent.split('\n').forEach(line => {
@@ -25,64 +18,55 @@ function loadEnv() {
             }
         });
     } catch (e) {
-        console.log('No .env file found or error reading it.');
+        // Ignore missing .env on Vercel
     }
 }
 
 loadEnv();
 
-const API_KEY =process.env.Cockpit_API;
-const BASE_URL='https://cockpit.hackclub.com/api/v1';
+const API_KEY = process.env.Cockpit_API;
+const BASE_URL = 'https://cockpit.hackclub.com/api/v1';
 const EVENT_ID = 'recUVlbfcembNY4lz';
 
+const app = express();
+app.use(cors());
+app.use(express.static(path.join(__dirname)));
 
-if (!API_KEY) {
-    console.error('ERROR: Cockpit_API not found in .env file');
-}
 app.get('/api/events', async (req, res) => {
     try {
-        const response = await axios.get(`https://cockpit.hackclub.com/api/events/public`);
-      
-         if (!response.ok) {
-            throw new Error(`API returned status: ${response.status}`);
-        }
-          const events= response.data.map(event =>({
+        const response = await axios.get('https://cockpit.hackclub.com/api/events/public');
+        const events = response.data.map(event => ({
             ...event,
             signupPercentage: event.estimatedAttendeesCount
-            ? Math.round((event.numParticipants / event.estimatedAttendeesCount)*100)
-            :0,
+                ? Math.round((event.numParticipants / event.estimatedAttendeesCount) * 100)
+                : 0,
             campfireUrl: `https://campfire.hackclub.com/${event.eventName.replace(/\s+/g, '-').toLowerCase()}`
-          }));
-          console.log(`Found ${events.length} events`);
+        }));
         res.json(events);
     } catch (error) {
-        console.error('Error fetching events:', error);
         res.status(500).json({ error: error.message });
     }
 });
 
 app.get('/api/event/participants', async (req, res) => {
     try {
-        console.log('Fetching participants...');
- console.log('${BASE_URL}/events/${EVENT_ID}/participants');
         const response = await axios.get(`${BASE_URL}/events/${EVENT_ID}/participants`, {
-            
             headers: {
                 'X-API-Key': API_KEY
             }
         });
-       
-        const data = response.data;
-        res.json(data);
+        res.json(response.data);
     } catch (error) {
-        console.error('Error fetching participants:', error.message);
         res.status(500).json({ error: error.message });
     }
 });
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 app.get('/:eventName', (req, res) => {
     res.sendFile(path.join(__dirname, 'event-detail.html'));
 });
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+module.exports = app;
