@@ -1,5 +1,6 @@
 {
-    "scripts": {
+  "name": "cf",
+  "scripts": {
     "start": "node local-server.js"
   },
   "dependencies": {

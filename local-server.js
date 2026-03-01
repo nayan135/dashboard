@@ -1,8 +1,5 @@
 const express=require('express');
 const cors=require('cors');
-
-const express = require('express');
-const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
@@ -70,3 +67,10 @@ app.get('/:eventName', (req, res) => {
 });
 
 module.exports = app;
+
+if (require.main === module) {
+    const PORT = 3000;
+    app.listen(PORT, () => {
+        console.log(`Server running at http://localhost:${PORT}`);
+    });
+}
